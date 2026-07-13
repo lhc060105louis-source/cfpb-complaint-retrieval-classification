@@ -1,0 +1,27 @@
+# Local project media (code-only publication)
+/CS 410 Project Final Report.pdf
+/Cs410 pre video.mp4
+
+# Downloaded data and generated artifacts
+/data/
+/outputs/
+/figs/
+/tmp/
+*.parquet
+*.log
+
+# Python caches and environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
