@@ -29,21 +29,21 @@
 - Consumes: Existing scripts in `pipeline/`, `run_all.sh`, `run_all.ps1`, `download_data.sh`, `download_data.ps1`, and `requirements.txt`.
 - Produces: A standalone GitHub landing page whose commands and references match those files.
 
-- [ ] **Step 1: Replace the opening with recruiter-oriented positioning**
+- [x] **Step 1: Replace the opening with recruiter-oriented positioning**
 
 Add the title, badges, concise value proposition, navigation, project overview,
 highlights, and a technology summary. Mention the approximately 14.8 million
 raw rows, 3.77 million usable narratives, chronological evaluation, and
 retrieval evidence without claiming deployment.
 
-- [ ] **Step 2: Add the pipeline architecture and model explanations**
+- [x] **Step 2: Add the pipeline architecture and model explanations**
 
 Add a valid Mermaid flowchart covering data download, preprocessing/EDA,
 chronological splitting, BM25 demonstration, TF-IDF baseline, RAC, hybrid
 override, and evaluation. Explain each of the three classifiers and how
 Top-3 retrieved evidence is constructed.
 
-- [ ] **Step 3: Present results and engineering interpretation**
+- [x] **Step 3: Present results and engineering interpretation**
 
 Reproduce the exact test metrics:
 
@@ -57,7 +57,7 @@ Explain that the baseline performed best, retrieval remained valuable for
 case-level evidence, and low Macro-F1 relative to Weighted-F1 is consistent
 with a long-tailed label distribution.
 
-- [ ] **Step 4: Preserve reproducibility documentation**
+- [x] **Step 4: Preserve reproducibility documentation**
 
 Document repository structure, Python 3.10 environment creation, dependency
 installation, data download, cross-platform execution, stage selection,
@@ -65,7 +65,7 @@ small-scale iteration with `CS410_MAX_ROWS`, RAC checkpoint recovery, output
 artifacts, environment variables, hardware/runtime estimates, and disk
 requirements.
 
-- [ ] **Step 5: Add engineering decisions and limitations**
+- [x] **Step 5: Add engineering decisions and limitations**
 
 Describe chunked CSV ingestion, invalid narrative filtering, chronological
 splitting, SVD compression, cosine retrieval through normalized inner product,
@@ -73,7 +73,7 @@ FAISS IVF approximate search, bounded OvR parallelism, and checkpointing.
 Explicitly list the lack of a serving API, model persistence, retrieval metrics,
 automated tests/CI, systematic tuning, and a repository license.
 
-- [ ] **Step 6: Run documentation verification**
+- [x] **Step 6: Run documentation verification**
 
 Run:
 
@@ -105,7 +105,7 @@ git diff --check
 Expected: `README content checks passed`, followed by no output from
 `git diff --check`.
 
-- [ ] **Step 7: Review the final documentation diff**
+- [x] **Step 7: Review the final documentation diff**
 
 Run:
 
