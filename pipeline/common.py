@@ -135,11 +135,12 @@ def filter_usable(
     label_col: str | None = None,
 ) -> pd.DataFrame:
     df = df.copy()
-    df[text_col] = df[text_col].astype(str)
     df = df[df[text_col].notna()]
+    df[text_col] = df[text_col].astype(str)
     df = df[df[text_col].str.strip() != ""]
     df = df[df[text_col].str.lower() != "nan"]
     if label_col is not None and label_col in df.columns:
+        df = df[df[label_col].notna()]
         df[label_col] = df[label_col].astype(str)
         df = df[df[label_col].str.strip() != ""]
         df = df[df[label_col].str.lower() != "nan"]

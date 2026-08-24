@@ -25,12 +25,15 @@ def aggregate_evidence(evidence: pd.DataFrame, config: HybridConfig) -> pd.DataF
     rows: list[dict] = []
     for query_id, group in evidence.groupby("query_id", sort=False):
         labels = group.sort_values("rank")["hit_issue"].astype(str).tolist()
+        top_k = labels[: config.require_unanimous_topk]
         rows.append(
             {
                 ID_COL: query_id,
                 "retrieval_top1_issue": labels[0],
                 "retrieval_vote_issue": majority_vote(labels),
-                "top3_all_agree": len(set(labels[: config.require_unanimous_topk])) == 1,
+                "top3_all_agree": (
+                    len(top_k) == config.require_unanimous_topk and len(set(top_k)) == 1
+                ),
             }
         )
     return pd.DataFrame(rows)

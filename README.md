@@ -4,6 +4,8 @@
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-TF--IDF%20%2B%20LogReg-F7931E?logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
 [![FAISS](https://img.shields.io/badge/FAISS-Approximate%20Search-0467DF)](https://github.com/facebookresearch/faiss)
 [![Dataset](https://img.shields.io/badge/Dataset-CFPB%20Complaints-006699)](https://www.consumerfinance.gov/data-research/consumer-complaints/)
+[![tests](https://github.com/lhc060105louis-source/cfpb-complaint-retrieval-classification/actions/workflows/tests.yml/badge.svg)](https://github.com/lhc060105louis-source/cfpb-complaint-retrieval-classification/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 An end-to-end NLP pipeline for finding similar consumer complaints and
 classifying their issue categories at multi-million-document scale.
@@ -28,10 +30,13 @@ classification in one reproducible workflow.
 - [Engineering Decisions](#engineering-decisions)
 - [Repository Structure](#repository-structure)
 - [Quick Start](#quick-start)
+- [Tests](#tests)
 - [Configuration](#configuration)
 - [Outputs](#outputs)
 - [Runtime and Storage](#runtime-and-storage)
 - [Limitations and Future Work](#limitations-and-future-work)
+- [Data Source](#data-source)
+- [License](#license)
 
 ## Why This Project Matters
 
@@ -212,11 +217,18 @@ instead of rebuilding the index and retrieving millions of neighbor sets.
 ```text
 .
 ├── README.md
+├── LICENSE
 ├── requirements.txt
+├── requirements-dev.txt
 ├── download_data.sh
 ├── download_data.ps1
 ├── run_all.sh
 ├── run_all.ps1
+├── tests/
+│   ├── test_common.py
+│   ├── test_hybrid_retrieval_classifier.py
+│   ├── test_make_split.py
+│   └── test_tfidf_baseline.py
 └── pipeline/
     ├── common.py
     ├── 00_check_header.py
@@ -321,6 +333,20 @@ checkpoint exists. Re-run the stage to resume classifier training:
 
 Delete the checkpoint only when a clean retrieval run is required.
 
+## Tests
+
+The test suite uses small in-memory fixtures, so it does not download the CFPB
+dataset. It checks missing-value filtering, chronological splitting, a small
+TF-IDF training and evaluation run, and the hybrid retriever's Top-K voting
+boundary.
+
+```bash
+python -m pip install -r requirements-dev.txt
+python -m pytest -q
+```
+
+GitHub Actions runs the same suite on each push and pull request.
+
 ## Configuration
 
 No environment variables are required for the default full-data run.
@@ -418,7 +444,8 @@ for development on smaller machines.
 Current limitations:
 
 - No model serialization or online inference API.
-- No automated test suite or continuous-integration workflow.
+- The automated suite covers core logic with small fixtures; it does not run
+  the multi-million-row experiment in CI.
 - BM25 is demonstrated qualitatively rather than evaluated with Recall@K, MRR,
   or nDCG.
 - RAC includes retrieved training labels in the augmented text and may overfit
@@ -426,7 +453,6 @@ Current limitations:
 - Retrieval and hybrid hyperparameters are fixed rather than systematically
   tuned.
 - Rare Issue classes remain difficult, as reflected in the low Macro-F1.
-- The repository does not currently declare a software license.
 
 Potential next steps:
 
@@ -435,7 +461,6 @@ Potential next steps:
 - Tune retrieval depth and decision thresholds on the validation split.
 - Report per-class performance and error clusters for long-tail Issues.
 - Persist the preprocessing, retrieval, and classification artifacts.
-- Add unit tests, smoke tests on a small fixture, and CI.
 - Expose a lightweight API for prediction and supporting-case retrieval.
 
 ## Data Source
@@ -444,3 +469,7 @@ The data is published by the
 [Consumer Financial Protection Bureau](https://www.consumerfinance.gov/data-research/consumer-complaints/).
 Complaint narratives may contain sensitive or personal information; review the
 CFPB's terms and data guidance before redistributing derived artifacts.
+
+## License
+
+The source code in this repository is available under the [MIT License](LICENSE).
